@@ -1,1117 +1,208 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الريمونتادا الأخيرة - جدول المذاكرة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-brown: #5D4037;
-            --dark-brown: #3E2723;
-            --light-brown: #8D6E63;
-            --cream: #F5F5DC;
-            --light-cream: #FAF8F0;
-            --accent-gold: #D4AF37;
-            --success-green: #4CAF50;
-            --warning-orange: #FF9800;
-            --danger-red: #F44336;
-            --organic-purple: #9C27B0;
-            --physics-blue: #2196F3;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #FAF8F0 0%, #F5F5DC 100%);
-            min-height: 100vh;
-            color: var(--dark-brown);
-            line-height: 1.6;
-        }
-
-        /* Header Section */
-        .header {
-            background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0.3;
-        }
-
-        .quote {
-            font-size: 0.9rem;
-            color: var(--cream);
-            opacity: 0.9;
-            margin-bottom: 0.5rem;
-            font-style: italic;
-        }
-
-        .main-title {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--cream);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Stats Summary */
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .stat-pill {
-            background: rgba(255,255,255,0.15);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 700;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .stat-pill.chem { background: rgba(76, 175, 80, 0.3); }
-        .stat-pill.phys { background: rgba(33, 150, 243, 0.3); }
-        .stat-pill.org { background: rgba(156, 39, 176, 0.3); }
-
-        /* Mood Tracker */
-        .mood-section {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .mood-title {
-            color: var(--cream);
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .mood-emojis {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .mood-emoji {
-            font-size: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            filter: grayscale(100%);
-            opacity: 0.6;
-            position: relative;
-        }
-
-        .mood-emoji:hover, .mood-emoji.active {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .mood-emoji.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-        }
-
-        .mood-tracker {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .mood-box {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 8px;
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .mood-box.filled {
-            background: var(--accent-gold);
-            border-color: var(--accent-gold);
-            transform: scale(1.05);
-        }
-
-        /* Week Navigation */
-        .week-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: var(--light-cream);
-            border-bottom: 3px solid var(--primary-brown);
-            flex-wrap: wrap;
-        }
-
-        .week-btn {
-            background: var(--primary-brown);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .week-btn:hover {
-            background: var(--dark-brown);
-            transform: scale(1.1);
-        }
-
-        .week-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--primary-brown);
-            min-width: 250px;
-            text-align: center;
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-
-        .section-title {
-            background: var(--primary-brown);
-            color: var(--cream);
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 700;
-            margin: 1.5rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Schedule Table */
-        .schedule-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            margin-bottom: 1.5rem;
-        }
-
-        .schedule-header {
-            background: var(--dark-brown);
-            color: var(--cream);
-            padding: 1rem;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .schedule-table th {
-            background: var(--primary-brown);
-            color: white;
-            padding: 0.8rem 0.5rem;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-
-        .schedule-table td {
-            padding: 0.8rem 0.5rem;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9rem;
-        }
-
-        .schedule-table tr:hover {
-            background: var(--light-cream);
-        }
-
-        .day-name {
-            font-weight: 700;
-            color: var(--primary-brown);
-        }
-
-        .subject-chem {
-            color: var(--success-green);
-            font-weight: 700;
-            background: rgba(76, 175, 80, 0.1);
-            padding: 0.2rem 0.5rem;
-            border-radius: 12px;
-        }
-
-        .subject-phys {
-            color: var(--physics-blue);
-            font-weight: 700;
-            background: rgba(33, 150, 243, 0.1);
-            padding: 0.2rem 0.5rem;
-            border-radius: 12px;
-        }
-
-        .subject-org {
-            color: var(--organic-purple);
-            font-weight: 700;
-            background: rgba(156, 39, 176, 0.1);
-            padding: 0.2rem 0.5rem;
-            border-radius: 12px;
-        }
-
-        /* Daily Tasks */
-        .tasks-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .tasks-header {
-            background: var(--dark-brown);
-            color: var(--cream);
-            padding: 1rem;
-            text-align: center;
-            font-weight: 700;
-        }
-
-        .day-task {
-            border-bottom: 1px solid #eee;
-            padding: 1rem;
-        }
-
-        .day-task:last-child {
-            border-bottom: none;
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
-
-        .day-header:hover {
-            background: var(--light-cream);
-        }
-
-        .day-label {
-            font-weight: 800;
-            color: var(--primary-brown);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .day-date {
-            font-size: 0.8rem;
-            color: var(--light-brown);
-            background: var(--light-cream);
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-        }
-
-        .toggle-icon {
-            transition: transform 0.3s;
-            color: var(--primary-brown);
-        }
-
-        .toggle-icon.rotated {
-            transform: rotate(180deg);
-        }
-
-        .task-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .task-grid.expanded {
-            max-height: 800px;
-        }
-
-        .task-item {
-            background: var(--light-cream);
-            border-radius: 10px;
-            padding: 0.8rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .task-item:hover {
-            border-color: var(--primary-brown);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .task-item.completed {
-            background: #E8F5E9;
-            border-color: var(--success-green);
-        }
-
-        .task-icon {
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
-            color: var(--primary-brown);
-        }
-
-        .task-item.completed .task-icon {
-            color: var(--success-green);
-        }
-
-        .task-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--dark-brown);
-            text-align: center;
-        }
-
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary-brown);
-            border-radius: 4px;
-            margin: 0 auto 0.5rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .task-item.completed .checkbox {
-            background: var(--success-green);
-            border-color: var(--success-green);
-            color: white;
-        }
-
-        .subject-tag {
-            font-size: 0.7rem;
-            margin-top: 0.3rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            display: inline-block;
-        }
-
-        .tag-chem { background: rgba(76, 175, 80, 0.2); color: var(--success-green); }
-        .tag-phys { background: rgba(33, 150, 243, 0.2); color: var(--physics-blue); }
-        .tag-org { background: rgba(156, 39, 176, 0.2); color: var(--organic-purple); }
-
-        /* Footer Sections */
-        .footer-sections {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .footer-card {
-            background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
-            border-radius: 15px;
-            padding: 1.2rem;
-            color: var(--cream);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .footer-title {
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-input {
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            padding: 0.8rem;
-            color: white;
-            font-family: inherit;
-            resize: none;
-            min-height: 80px;
-            transition: all 0.3s;
-        }
-
-        .footer-input:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .footer-input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .alert-box {
-            background: var(--light-brown);
-            border-radius: 15px;
-            padding: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .alert-icon {
-            font-size: 1.5rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Progress Bar */
-        .progress-section {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .progress-title {
-            font-weight: 700;
-            color: var(--primary-brown);
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .progress-bar {
-            height: 20px;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success-green) 0%, var(--accent-gold) 100%);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 10px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-
-        /* Legend */
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .dot-chem { background: var(--success-green); }
-        .dot-phys { background: var(--physics-blue); }
-        .dot-org { background: var(--organic-purple); }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .main-title {
-                font-size: 1.5rem;
-            }
-
-            .footer-sections {
-                grid-template-columns: 1fr;
-            }
-
-            .task-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .schedule-table {
-                font-size: 0.75rem;
-            }
-
-            .schedule-table th,
-            .schedule-table td {
-                padding: 0.5rem 0.3rem;
-            }
-
-            .week-title {
-                font-size: 1rem;
-                min-width: 200px;
-            }
-
-            .stat-pill {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: var(--accent-gold);
-            position: absolute;
-            animation: confetti-fall 3s linear forwards;
-            z-index: 1000;
-        }
-
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الريمونتادا الأخيرة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--pb:#5D4037;--db:#3E2723;--lb:#8D6E63;--cr:#F5F5DC;--lc:#FAF8F0;--ag:#D4AF37;--sg:#4CAF50;--or:#FF9800;--dr:#F44336;--op:#9C27B0;--ph:#2196F3;--sp:#2E7D32;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#FAF8F0 0%,#F5F5DC 100%);min-height:100vh;color:var(--db);line-height:1.6;}
+.header{background:linear-gradient(135deg,var(--pb) 0%,var(--db) 100%);padding:2rem 1rem;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+.quote{font-size:.9rem;color:var(--cr);opacity:.9;margin-bottom:.5rem;font-style:italic;}
+.main-title{font-size:1.8rem;font-weight:900;color:var(--cr);text-shadow:2px 2px 4px rgba(0,0,0,0.3);margin-bottom:1rem;}
+.stats-bar{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-top:1rem;}
+.stat-pill{background:rgba(255,255,255,.15);padding:.4rem .8rem;border-radius:20px;color:white;font-size:.75rem;font-weight:700;border:1px solid rgba(255,255,255,.3);}
+.stat-pill.chem{background:rgba(76,175,80,.3);}.stat-pill.phys{background:rgba(33,150,243,.3);}.stat-pill.org{background:rgba(156,39,176,.3);}
+.mood-section{background:rgba(255,255,255,.1);border-radius:20px;padding:1.5rem;margin-top:1rem;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);}
+.mood-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.mood-title{color:var(--cr);font-size:1rem;font-weight:700;display:flex;align-items:center;gap:.5rem;}
+.mood-reset-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:white;padding:.3rem .6rem;border-radius:15px;font-size:.7rem;cursor:pointer;transition:all .3s;}
+.mood-reset-btn:hover{background:rgba(255,255,255,.3);}
+.mood-emojis{display:flex;justify-content:center;gap:.5rem;margin-bottom:1rem;}
+.mood-emoji{font-size:1.8rem;cursor:pointer;transition:all .3s;filter:grayscale(100%);opacity:.6;}
+.mood-emoji:hover,.mood-emoji.active{filter:grayscale(0%);opacity:1;transform:scale(1.2);}
+.mood-tracker{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;min-height:50px;padding:.5rem;background:rgba(0,0,0,.1);border-radius:12px;}
+.mood-box{width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:10px;border:2px solid rgba(255,255,255,.3);transition:all .3s;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;position:relative;}
+.mood-box:hover{background:rgba(255,255,255,.3);}.mood-box.filled{background:linear-gradient(135deg,var(--ag),#FFA000);border-color:var(--ag);transform:scale(1.05);box-shadow:0 4px 8px rgba(0,0,0,.2);}
+.mood-box .delete-btn{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--dr);color:white;border-radius:50%;font-size:.6rem;display:none;align-items:center;justify-content:center;}
+.mood-box.filled:hover .delete-btn{display:flex;}
+.mood-stats{display:flex;justify-content:center;gap:1rem;margin-top:.8rem;font-size:.75rem;color:var(--cr);}
+.mood-stat{background:rgba(255,255,255,.1);padding:.2rem .6rem;border-radius:12px;}
+.week-nav{display:flex;justify-content:center;align-items:center;gap:1rem;padding:1.5rem;background:var(--lc);border-bottom:3px solid var(--pb);flex-wrap:wrap;}
+.week-btn{background:var(--pb);color:white;border:none;width:35px;height:35px;border-radius:50%;cursor:pointer;font-size:1rem;transition:all .3s;}
+.week-btn:hover{background:var(--db);transform:scale(1.1);}
+.week-title{font-size:1rem;font-weight:800;color:var(--pb);min-width:200px;text-align:center;}
+.container{max-width:900px;margin:0 auto;padding:1rem;}
+.section-title{background:var(--pb);color:var(--cr);padding:.7rem 1.2rem;border-radius:10px;font-weight:700;margin:1.5rem 0 1rem 0;display:flex;align-items:center;gap:.5rem;font-size:.9rem;}
+.schedule-card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08);margin-bottom:1.5rem;}
+.schedule-header{background:var(--db);color:var(--cr);padding:1rem;text-align:center;font-weight:700;font-size:.8rem;}
+.schedule-table{width:100%;border-collapse:collapse;}
+.schedule-table th{background:var(--pb);color:white;padding:.7rem .4rem;font-weight:700;font-size:.75rem;text-align:center;}
+.schedule-table td{padding:.7rem .4rem;text-align:center;border-bottom:1px solid #eee;font-size:.8rem;}
+.schedule-table tr:hover{background:var(--lc);}
+.day-name{font-weight:700;color:var(--pb);}
+.subject-chem{color:var(--sg);font-weight:700;background:rgba(76,175,80,.1);padding:.2rem .4rem;border-radius:10px;}
+.subject-phys{color:var(--ph);font-weight:700;background:rgba(33,150,243,.1);padding:.2rem .4rem;border-radius:10px;}
+.subject-org{color:var(--op);font-weight:700;background:rgba(156,39,176,.1);padding:.2rem .4rem;border-radius:10px;}
+.tasks-card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08);}
+.tasks-header{background:var(--db);color:var(--cr);padding:1rem;text-align:center;font-weight:700;}
+.day-task{border-bottom:1px solid #eee;padding:1rem;}
+.day-task:last-child{border-bottom:none;}
+.day-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;cursor:pointer;padding:.5rem;border-radius:8px;transition:background .3s;}
+.day-header:hover{background:var(--lc);}
+.day-label{font-weight:800;color:var(--pb);font-size:1rem;display:flex;align-items:center;gap:.5rem;}
+.day-date{font-size:.75rem;color:var(--lb);background:var(--lc);padding:.2rem .5rem;border-radius:10px;}
+.toggle-icon{transition:transform .3s;color:var(--pb);}.toggle-icon.rotated{transform:rotate(180deg);}
+.task-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;max-height:0;overflow:hidden;transition:max-height .4s ease;}
+@media(min-width:600px){.task-grid{grid-template-columns:repeat(4,1fr);}}
+.task-grid.expanded{max-height:500px;}
+.task-item{background:var(--lc);border-radius:10px;padding:.7rem;border:2px solid transparent;transition:all .3s;cursor:pointer;text-align:center;}
+.task-item:hover{border-color:var(--pb);transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.1);}
+.task-item.completed{background:#E8F5E9;border-color:var(--sg);}
+.task-icon{font-size:1.1rem;margin-bottom:.3rem;color:var(--pb);}.task-item.completed .task-icon{color:var(--sg);}
+.task-label{font-size:.7rem;font-weight:600;color:var(--db);}
+.checkbox{width:18px;height:18px;border:2px solid var(--pb);border-radius:4px;margin:0 auto .5rem auto;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:all .3s;}
+.task-item.completed .checkbox{background:var(--sg);border-color:var(--sg);color:white;}
+.subject-tag{font-size:.65rem;margin-top:.3rem;padding:.15rem .4rem;border-radius:8px;display:inline-block;}
+.tag-chem{background:rgba(76,175,80,.2);color:var(--sg);}.tag-phys{background:rgba(33,150,243,.2);color:var(--ph);}.tag-org{background:rgba(156,39,176,.2);color:var(--op);}
+.progress-section{background:white;border-radius:15px;padding:1.5rem;margin:1.5rem 0;box-shadow:0 4px 15px rgba(0,0,0,.08);}
+.progress-title{font-weight:700;color:var(--pb);margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;}
+.progress-bar{height:18px;background:#eee;border-radius:10px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--sg) 0%,var(--ag) 100%);border-radius:10px;transition:width .5s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:white;font-weight:700;font-size:.75rem;}
+.legend{display:flex;justify-content:center;gap:1rem;margin:1rem 0;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:.3rem;font-size:.8rem;font-weight:600;}
+.legend-dot{width:12px;height:12px;border-radius:50%;}.dot-chem{background:var(--sg);}.dot-phys{background:var(--ph);}.dot-org{background:var(--op);}
+.footer-sections{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1.5rem;}
+@media(min-width:600px){.footer-sections{grid-template-columns:1fr 1fr;}}
+.footer-card{background:linear-gradient(135deg,var(--pb) 0%,var(--db) 100%);border-radius:15px;padding:1.2rem;color:var(--cr);box-shadow:0 4px 15px rgba(0,0,0,.1);}
+.footer-title{font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;font-size:.9rem;}
+.footer-input{width:100%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:8px;padding:.7rem;color:white;font-family:inherit;resize:none;min-height:70px;font-size:.85rem;}
+.footer-input:focus{outline:none;border-color:var(--ag);background:rgba(255,255,255,.15);}.footer-input::placeholder{color:rgba(255,255,255,.5);}
+.niya-card{background:linear-gradient(135deg,var(--sp) 0%,#1B5E20 100%);border-radius:15px;padding:1.2rem;color:white;box-shadow:0 4px 15px rgba(0,0,0,.1);position:relative;overflow:hidden;}
+.niya-card::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1) 1px,transparent 1px);background-size:20px 20px;opacity:.3;animation:sparkle 20s linear infinite;}
+@keyframes sparkle{0%{transform:translate(0,0);}100%{transform:translate(50px,50px);}}
+.niya-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;position:relative;z-index:1;}
+.niya-title{font-weight:800;font-size:1rem;display:flex;align-items:center;gap:.5rem;}
+.niya-badge{background:rgba(255,255,255,.2);padding:.3rem .6rem;border-radius:15px;font-size:.75rem;font-weight:700;}
+.niya-content{position:relative;z-index:1;}
+.niya-text{font-size:.9rem;margin-bottom:1rem;line-height:1.6;text-align:center;}
+.niya-timer{background:rgba(0,0,0,.2);border-radius:10px;padding:.7rem;margin-bottom:1rem;text-align:center;}
+.timer-label{font-size:.7rem;opacity:.9;margin-bottom:.2rem;}
+.timer-display{font-size:1.2rem;font-weight:800;font-family:monospace;}
+.niya-btn{width:100%;background:linear-gradient(135deg,#FFD700,#FFA000);color:var(--db);border:none;padding:.8rem;border-radius:10px;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:.5rem;position:relative;z-index:1;}
+.niya-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,215,0,.4);}.niya-btn.renewed{background:linear-gradient(135deg,#81C784,#4CAF50);color:white;}
+.niya-history{margin-top:.8rem;max-height:80px;overflow-y:auto;background:rgba(0,0,0,.1);border-radius:8px;padding:.5rem;}
+.niya-item{font-size:.7rem;padding:.2rem;border-bottom:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;}.niya-item:last-child{border-bottom:none;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--db);color:white;padding:.8rem 1.5rem;border-radius:25px;font-weight:700;font-size:.85rem;box-shadow:0 4px 15px rgba(0,0,0,.3);z-index:1000;opacity:0;transition:all .3s ease;}.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+@keyframes pulse-warning{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,215,0,.4);}50%{transform:scale(1.02);box-shadow:0 0 0 10px rgba(255,215,0,0);}}.pulse-active{animation:pulse-warning 2s infinite;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.animate-in{animation:fadeIn .5s ease forwards;}
+.confetti{position:fixed;width:8px;height:8px;background:var(--ag);position:absolute;animation:confetti-fall 3s linear forwards;z-index:1000;}
+@keyframes confetti-fall{to{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="quote">"البداية القوية هي نصف المعركة"</div>
-        <h1 class="main-title">الريمونتادا الأخيرة</h1>
-
-        <div class="stats-bar">
-            <div class="stat-pill chem">21 حصة كيمياء</div>
-            <div class="stat-pill phys">17 حصة فيزياء</div>
-            <div class="stat-pill org">6 حصة كيمياء عضوية</div>
-            <div class="stat-pill">44 يوم (28 مارس - 10 مايو)</div>
-        </div>
-
-        <div class="mood-section">
-            <div class="mood-title">
-                <i class="fas fa-smile"></i>
-                تقييم الأسبوع:
-            </div>
-            <div class="mood-emojis">
-                <span class="mood-emoji" data-mood="1" title="سيئ جداً">😢</span>
-                <span class="mood-emoji" data-mood="2" title="سيئ">😟</span>
-                <span class="mood-emoji" data-mood="3" title="عادي">😐</span>
-                <span class="mood-emoji" data-mood="4" title="جيد">🙂</span>
-                <span class="mood-emoji" data-mood="5" title="ممتاز">😍</span>
-            </div>
-            <div class="mood-tracker" id="moodTracker">
-                <!-- Generated by JS -->
-            </div>
-        </div>
-    </header>
-
-    <!-- Week Navigation -->
-    <div class="week-nav">
-        <button class="week-btn" onclick="changeWeek(-1)"><i class="fas fa-chevron-right"></i></button>
-        <div class="week-title" id="weekTitle">الأسبوع الأول (28 مارس - 3 أبريل)</div>
-        <button class="week-btn" onclick="changeWeek(1)"><i class="fas fa-chevron-left"></i></button>
-    </div>
-
-    <div class="container">
-        <!-- Progress Section -->
-        <div class="progress-section">
-            <div class="progress-title">
-                <span><i class="fas fa-chart-line"></i> نسبة الإنجاز</span>
-                <span id="progressPercent">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
-            </div>
-        </div>
-
-        <!-- Legend -->
-        <div class="legend">
-            <div class="legend-item">
-                <div class="legend-dot dot-chem"></div>
-                <span>كيمياء (21)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot dot-phys"></div>
-                <span>فيزياء (17)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot dot-org"></div>
-                <span>كيمياء عضوية (6)</span>
-            </div>
-        </div>
-
-        <!-- Schedule Section -->
-        <div class="section-title">
-            <i class="fas fa-calendar-alt"></i>
-            توزيع الحصص (21 كيمياء + 17 فيزياء + 6 كيمياء عضوية)
-        </div>
-
-        <div class="schedule-card">
-            <div class="schedule-header">
-                جدول الدروس اليومي
-            </div>
-            <table class="schedule-table" id="scheduleTable">
-                <thead>
-                    <tr>
-                        <th>اليوم</th>
-                        <th>التاريخ</th>
-                        <th>المادة</th>
-                        <th>رقم الحصة</th>
-                    </tr>
-                </thead>
-                <tbody id="scheduleBody">
-                    <!-- Generated by JS -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Daily Tasks Section -->
-        <div class="section-title">
-            <i class="fas fa-tasks"></i>
-            جدول المهام اليومي
-        </div>
-
-        <div class="tasks-card" id="tasksContainer">
-            <!-- Generated by JS -->
-        </div>
-
-        <!-- Footer Sections -->
-        <div class="footer-sections">
-            <div class="footer-card">
-                <div class="footer-title">
-                    <i class="fas fa-lightbulb"></i>
-                    فخور انهاردة إني:
-                </div>
-                <textarea class="footer-input" id="proudInput" placeholder="اكتب إنجازاتك اليوم..."></textarea>
-            </div>
-
-            <div class="alert-box">
-                <i class="fas fa-exclamation-triangle alert-icon"></i>
-                <span>متنساش تجدد النية!</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Complete Data Structure: 28 March - 10 May
-        // Chemistry: 21 lessons, Physics: 17 lessons, Organic: 6 lessons
-        const weeksData = [
-            {
-                id: 1,
-                title: "الأسبوع الأول (28 مارس - 3 أبريل)",
-                startDate: "28 مارس",
-                endDate: "3 أبريل",
-                days: 7,
-                schedule: [
-                    { day: "السبت", date: "28 مارس", subject: "كيمياء", lesson: 1, type: "chem" },
-                    { day: "الأحد", date: "29 مارس", subject: "فيزياء", lesson: 1, type: "phys" },
-                    { day: "الاثنين", date: "30 مارس", subject: "كيمياء", lesson: 2, type: "chem" },
-                    { day: "الثلاثاء", date: "31 مارس", subject: "فيزياء", lesson: 2, type: "phys" },
-                    { day: "الأربعاء", date: "1 أبريل", subject: "كيمياء", lesson: 3, type: "chem" },
-                    { day: "الخميس", date: "2 أبريل", subject: "فيزياء", lesson: 3, type: "phys" },
-                    { day: "الجمعة", date: "3 أبريل", subject: "كيمياء عضوية", lesson: 1, type: "org" }
-                ]
-            },
-            {
-                id: 2,
-                title: "الأسبوع الثاني (4 - 10 أبريل)",
-                startDate: "4 أبريل",
-                endDate: "10 أبريل",
-                days: 7,
-                schedule: [
-                    { day: "السبت", date: "4 أبريل", subject: "فيزياء", lesson: 4, type: "phys" },
-                    { day: "الأحد", date: "5 أبريل", subject: "كيمياء", lesson: 4, type: "chem" },
-                    { day: "الاثنين", date: "6 أبريل", subject: "فيزياء", lesson: 5, type: "phys" },
-                    { day: "الثلاثاء", date: "7 أبريل", subject: "كيمياء", lesson: 5, type: "chem" },
-                    { day: "الأربعاء", date: "8 أبريل", subject: "فيزياء", lesson: 6, type: "phys" },
-                    { day: "الخميس", date: "9 أبريل", subject: "كيمياء", lesson: 6, type: "chem" },
-                    { day: "الجمعة", date: "10 أبريل", subject: "كيمياء عضوية", lesson: 2, type: "org" }
-                ]
-            },
-            {
-                id: 3,
-                title: "الأسبوع الثالث (11 - 17 أبريل)",
-                startDate: "11 أبريل",
-                endDate: "17 أبريل",
-                days: 7,
-                schedule: [
-                    { day: "السبت", date: "11 أبريل", subject: "فيزياء", lesson: 7, type: "phys" },
-                    { day: "الأحد", date: "12 أبريل", subject: "كيمياء", lesson: 7, type: "chem" },
-                    { day: "الاثنين", date: "13 أبريل", subject: "فيزياء", lesson: 8, type: "phys" },
-                    { day: "الثلاثاء", date: "14 أبريل", subject: "كيمياء", lesson: 8, type: "chem" },
-                    { day: "الأربعاء", date: "15 أبريل", subject: "فيزياء", lesson: 9, type: "phys" },
-                    { day: "الخميس", date: "16 أبريل", subject: "كيمياء", lesson: 9, type: "chem" },
-                    { day: "الجمعة", date: "17 أبريل", subject: "كيمياء عضوية", lesson: 3, type: "org" }
-                ]
-            },
-            {
-                id: 4,
-                title: "الأسبوع الرابع (18 - 24 أبريل)",
-                startDate: "18 أبريل",
-                endDate: "24 أبريل",
-                days: 7,
-                schedule: [
-                    { day: "السبت", date: "18 أبريل", subject: "فيزياء", lesson: 10, type: "phys" },
-                    { day: "الأحد", date: "19 أبريل", subject: "كيمياء", lesson: 10, type: "chem" },
-                    { day: "الاثنين", date: "20 أبريل", subject: "فيزياء", lesson: 11, type: "phys" },
-                    { day: "الثلاثاء", date: "21 أبريل", subject: "كيمياء", lesson: 11, type: "chem" },
-                    { day: "الأربعاء", date: "22 أبريل", subject: "فيزياء", lesson: 12, type: "phys" },
-                    { day: "الخميس", date: "23 أبريل", subject: "كيمياء", lesson: 12, type: "chem" },
-                    { day: "الجمعة", date: "24 أبريل", subject: "كيمياء عضوية", lesson: 4, type: "org" }
-                ]
-            },
-            {
-                id: 5,
-                title: "الأسبوع الخامس (25 أبريل - 1 مايو)",
-                startDate: "25 أبريل",
-                endDate: "1 مايو",
-                days: 7,
-                schedule: [
-                    { day: "السبت", date: "25 أبريل", subject: "فيزياء", lesson: 13, type: "phys" },
-                    { day: "الأحد", date: "26 أبريل", subject: "كيمياء", lesson: 13, type: "chem" },
-                    { day: "الاثنين", date: "27 أبريل", subject: "فيزياء", lesson: 14, type: "phys" },
-                    { day: "الثلاثاء", date: "28 أبريل", subject: "كيمياء", lesson: 14, type: "chem" },
-                    { day: "الأربعاء", date: "29 أبريل", subject: "فيزياء", lesson: 15, type: "phys" },
-                    { day: "الخميس", date: "30 أبريل", subject: "كيمياء", lesson: 15, type: "chem" },
-                    { day: "الجمعة", date: "1 مايو", subject: "كيمياء عضوية", lesson: 5, type: "org" }
-                ]
-            },
-            {
-                id: 6,
-                title: "الأسبوع السادس (2 - 8 مايو)",
-                startDate: "2 مايو",
-                endDate: "8 مايو",
-                days: 7,
-                schedule: [
-                    { day: "السبت", date: "2 مايو", subject: "فيزياء", lesson: 16, type: "phys" },
-                    { day: "الأحد", date: "3 مايو", subject: "كيمياء", lesson: 16, type: "chem" },
-                    { day: "الاثنين", date: "4 مايو", subject: "فيزياء", lesson: 17, type: "phys" },
-                    { day: "الثلاثاء", date: "5 مايو", subject: "كيمياء", lesson: 17, type: "chem" },
-                    { day: "الأربعاء", date: "6 مايو", subject: "كيمياء", lesson: 18, type: "chem" },
-                    { day: "الخميس", date: "7 مايو", subject: "كيمياء", lesson: 19, type: "chem" },
-                    { day: "الجمعة", date: "8 مايو", subject: "كيمياء عضوية", lesson: 6, type: "org" }
-                ]
-            },
-            {
-                id: 7,
-                title: "الأسبوع السابع (9 - 10 مايو)",
-                startDate: "9 مايو",
-                endDate: "10 مايو",
-                days: 2,
-                schedule: [
-                    { day: "السبت", date: "9 مايو", subject: "كيمياء", lesson: 20, type: "chem" },
-                    { day: "الأحد", date: "10 مايو", subject: "كيمياء", lesson: 21, type: "chem" }
-                ]
-            }
-        ];
-
-        const taskTypes = [
-            { id: 'review', label: 'حل التفوق/الامتحان', icon: 'fa-star' },
-            { id: 'mandatory', label: 'حل مندليف/الوابات', icon: 'fa-book' },
-            { id: 'homework', label: 'حل الواجب/سنوات سابقة', icon: 'fa-pen' },
-            { id: 'lecture', label: 'سنوات سابقة/التفوق', icon: 'fa-graduation-cap' }
-        ];
-
-        let currentWeek = 0;
-        let completedTasks = JSON.parse(localStorage.getItem('completedTasks') || '{}');
-        let weekMoods = JSON.parse(localStorage.getItem('weekMoods') || '{}');
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initMoodTracker();
-            renderWeek();
-            updateProgress();
-        });
-
-        function initMoodTracker() {
-            const tracker = document.getElementById('moodTracker');
-            tracker.innerHTML = '';
-            for (let i = 1; i <= 7; i++) {
-                const box = document.createElement('div');
-                box.className = 'mood-box';
-                box.dataset.day = i;
-                tracker.appendChild(box);
-            }
-            setupMoodTracker();
-        }
-
-        function changeWeek(direction) {
-            currentWeek += direction;
-            if (currentWeek < 0) currentWeek = weeksData.length - 1;
-            if (currentWeek >= weeksData.length) currentWeek = 0;
-
-            document.getElementById('weekTitle').style.opacity = '0';
-            setTimeout(() => {
-                renderWeek();
-                document.getElementById('weekTitle').style.opacity = '1';
-            }, 200);
-        }
-
-        function renderWeek() {
-            const week = weeksData[currentWeek];
-            document.getElementById('weekTitle').textContent = week.title;
-
-            // Render Schedule
-            const scheduleBody = document.getElementById('scheduleBody');
-            scheduleBody.innerHTML = week.schedule.map((item, index) => {
-                const subjectClass = item.type === 'chem' ? 'subject-chem' : 
-                                   item.type === 'phys' ? 'subject-phys' : 'subject-org';
-                return `
-                <tr class="animate-in" style="animation-delay: ${index * 0.1}s">
-                    <td class="day-name">${item.day}</td>
-                    <td>${item.date}</td>
-                    <td class="${subjectClass}">${item.subject}</td>
-                    <td>${item.lesson}</td>
-                </tr>
-                `;
-            }).join('');
-
-            // Render Tasks
-            const tasksContainer = document.getElementById('tasksContainer');
-            tasksContainer.innerHTML = `
-                <div class="tasks-header">تفاصيل المهام اليومية</div>
-                ${week.schedule.map((day, dayIndex) => {
-                    const dayKey = `week${currentWeek}_day${dayIndex}`;
-                    const isExpanded = dayIndex === 0 ? 'expanded' : '';
-                    const iconRotated = dayIndex === 0 ? 'rotated' : '';
-                    const subjectTagClass = day.type === 'chem' ? 'tag-chem' : 
-                                          day.type === 'phys' ? 'tag-phys' : 'tag-org';
-
-                    return `
-                    <div class="day-task animate-in" style="animation-delay: ${dayIndex * 0.1}s">
-                        <div class="day-header" onclick="toggleDay(this)">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <span class="day-label">
-                                    <i class="fas fa-calendar-day"></i>
-                                    ${day.day}
-                                </span>
-                                <span class="day-date">${day.date}</span>
-                            </div>
-                            <i class="fas fa-chevron-down toggle-icon ${iconRotated}"></i>
-                        </div>
-                        <div class="task-grid ${isExpanded}">
-                            ${taskTypes.map((task, taskIndex) => {
-                                const taskKey = `${dayKey}_${day.type}_${task.id}`;
-                                const isCompleted = completedTasks[taskKey];
-                                return `
-                                <div class="task-item ${isCompleted ? 'completed' : ''}" 
-                                     onclick="toggleTask('${taskKey}', this)"
-                                     data-task-key="${taskKey}">
-                                    <div class="checkbox">
-                                        ${isCompleted ? '<i class="fas fa-check"></i>' : ''}
-                                    </div>
-                                    <div class="task-icon">
-                                        <i class="fas ${task.icon}"></i>
-                                    </div>
-                                    <div class="task-label">${task.label}</div>
-                                    <div class="subject-tag ${subjectTagClass}">${day.subject}</div>
-                                </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                    `;
-                }).join('')}
-            `;
-
-            // Restore mood for this week
-            restoreMood();
-            restoreProudText();
-        }
-
-        function toggleDay(header) {
-            const grid = header.nextElementSibling;
-            const icon = header.querySelector('.toggle-icon');
-            grid.classList.toggle('expanded');
-            icon.classList.toggle('rotated');
-        }
-
-        function toggleTask(taskKey, element) {
-            element.classList.toggle('completed');
-            const checkbox = element.querySelector('.checkbox');
-
-            if (element.classList.contains('completed')) {
-                completedTasks[taskKey] = true;
-                checkbox.innerHTML = '<i class="fas fa-check"></i>';
-                createConfetti(element);
-            } else {
-                delete completedTasks[taskKey];
-                checkbox.innerHTML = '';
-            }
-
-            localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const totalTasks = document.querySelectorAll('.task-item').length;
-            const completed = document.querySelectorAll('.task-item.completed').length;
-            const percent = totalTasks > 0 ? Math.round((completed / totalTasks) * 100) : 0;
-
-            document.getElementById('progressPercent').textContent = percent + '%';
-            document.getElementById('progressFill').style.width = percent + '%';
-            document.getElementById('progressFill').textContent = percent > 10 ? percent + '%' : '';
-        }
-
-        function setupMoodTracker() {
-            const emojis = document.querySelectorAll('.mood-emoji');
-            const moodBoxes = document.querySelectorAll('.mood-box');
-
-            emojis.forEach(emoji => {
-                emoji.addEventListener('click', () => {
-                    emojis.forEach(e => e.classList.remove('active'));
-                    emoji.classList.add('active');
-
-                    // Fill next available box
-                    const emptyBox = Array.from(moodBoxes).find(box => !box.classList.contains('filled'));
-                    if (emptyBox) {
-                        emptyBox.classList.add('filled');
-                        emptyBox.textContent = emoji.textContent;
-
-                        // Save to localStorage
-                        if (!weekMoods[currentWeek]) weekMoods[currentWeek] = [];
-                        weekMoods[currentWeek].push(emoji.textContent);
-                        localStorage.setItem('weekMoods', JSON.stringify(weekMoods));
-                    }
-                });
-            });
-
-            // Double click to reset
-            moodBoxes.forEach((box, index) => {
-                box.addEventListener('dblclick', () => {
-                    box.classList.remove('filled');
-                    box.textContent = '';
-                    if (weekMoods[currentWeek]) {
-                        weekMoods[currentWeek].splice(index, 1);
-                        localStorage.setItem('weekMoods', JSON.stringify(weekMoods));
-                    }
-                });
-            });
-        }
-
-        function restoreMood() {
-            const moodBoxes = document.querySelectorAll('.mood-box');
-            moodBoxes.forEach(box => {
-                box.classList.remove('filled');
-                box.textContent = '';
-            });
-
-            if (weekMoods[currentWeek]) {
-                weekMoods[currentWeek].forEach((mood, index) => {
-                    if (moodBoxes[index]) {
-                        moodBoxes[index].classList.add('filled');
-                        moodBoxes[index].textContent = mood;
-                    }
-                });
-            }
-        }
-
-        function restoreProudText() {
-            const saved = localStorage.getItem('proudText_' + currentWeek);
-            document.getElementById('proudInput').value = saved || '';
-        }
-
-        function createConfetti(element) {
-            const rect = element.getBoundingClientRect();
-            for (let i = 0; i < 10; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = rect.left + rect.width / 2 + 'px';
-                confetti.style.top = rect.top + 'px';
-                confetti.style.background = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#9C27B0'][Math.floor(Math.random() * 5)];
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                document.body.appendChild(confetti);
-
-                setTimeout(() => confetti.remove(), 3000);
-            }
-        }
-
-        // Save proud input
-        document.getElementById('proudInput').addEventListener('input', (e) => {
-            localStorage.setItem('proudText_' + currentWeek, e.target.value);
-        });
-    </script>
+<div class="toast" id="toast"></div>
+<header class="header">
+<div class="quote">"البداية القوية هي نصف المعركة"</div>
+<h1 class="main-title">الريمونتادا الأخيرة</h1>
+<div class="stats-bar">
+<div class="stat-pill chem">21 كيمياء</div>
+<div class="stat-pill phys">17 فيزياء</div>
+<div class="stat-pill org">6 عضوية</div>
+<div class="stat-pill">44 يوم</div>
+</div>
+<div class="mood-section">
+<div class="mood-header">
+<div class="mood-title"><i class="fas fa-smile"></i>تقييم الأسبوع <span id="moodWeekNum">1</span></div>
+<button class="mood-reset-btn" onclick="resetMoodWeek()"><i class="fas fa-redo"></i> إعادة تعيين</button>
+</div>
+<div class="mood-emojis" id="moodEmojis">
+<span class="mood-emoji" data-mood="1" onclick="selectMood(this)">😢</span>
+<span class="mood-emoji" data-mood="2" onclick="selectMood(this)">😟</span>
+<span class="mood-emoji" data-mood="3" onclick="selectMood(this)">😐</span>
+<span class="mood-emoji" data-mood="4" onclick="selectMood(this)">🙂</span>
+<span class="mood-emoji" data-mood="5" onclick="selectMood(this)">😍</span>
+</div>
+<div class="mood-tracker" id="moodTracker"></div>
+<div class="mood-stats">
+<div class="mood-stat">المتوسط: <span id="moodAvg">-</span></div>
+<div class="mood-stat">الأيام: <span id="moodCount">0</span>/7</div>
+</div>
+</div>
+</header>
+<div class="week-nav">
+<button class="week-btn" onclick="changeWeek(-1)"><i class="fas fa-chevron-right"></i></button>
+<div class="week-title" id="weekTitle">الأسبوع الأول (28 مارس - 3 أبريل)</div>
+<button class="week-btn" onclick="changeWeek(1)"><i class="fas fa-chevron-left"></i></button>
+</div>
+<div class="container">
+<div class="progress-section">
+<div class="progress-title"><span><i class="fas fa-chart-line"></i> نسبة الإنجاز</span><span id="progressPercent">0%</span></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%">0%</div></div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot dot-chem"></div><span>كيمياء</span></div>
+<div class="legend-item"><div class="legend-dot dot-phys"></div><span>فيزياء</span></div>
+<div class="legend-item"><div class="legend-dot dot-org"></div><span>عضوية</span></div>
+</div>
+<div class="section-title"><i class="fas fa-calendar-alt"></i>توزيع الحصص</div>
+<div class="schedule-card">
+<div class="schedule-header">جدول الدروس اليومي</div>
+<table class="schedule-table">
+<thead><tr><th>اليوم</th><th>التاريخ</th><th>المادة</th><th>الحصة</th></tr></thead>
+<tbody id="scheduleBody"></tbody>
+</table>
+</div>
+<div class="section-title"><i class="fas fa-tasks"></i>المهام اليومية</div>
+<div class="tasks-card" id="tasksContainer"></div>
+<div class="footer-sections">
+<div class="footer-card">
+<div class="footer-title"><i class="fas fa-lightbulb"></i>فخور انهاردة إني:</div>
+<textarea class="footer-input" id="proudInput" placeholder="اكتب إنجازاتك..."></textarea>
+</div>
+<div class="niya-card" id="niyaCard">
+<div class="niya-header">
+<div class="niya-title"><i class="fas fa-praying-hands"></i>تجديد النية</div>
+<div class="niya-badge" id="renewalCount">0</div>
+</div>
+<div class="niya-content">
+<div class="niya-text">"اللهم إني نويت المذاكرة لوجهك الكريم"</div>
+<div class="niya-timer"><div class="timer-label">آخر تجديد:</div><div class="timer-display" id="timerDisplay">لم يتم التجديد</div></div>
+<button class="niya-btn" id="niyaBtn" onclick="renewNiya()"><i class="fas fa-heart"></i>جدد نيتك الآن</button>
+<div class="niya-history" id="niyaHistory" style="display:none;"></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const weeksData=[{id:1,title:"الأسبوع الأول (28 مارس - 3 أبريل)",schedule:[{day:"السبت",date:"28 مارس",subject:"كيمياء",lesson:1,type:"chem"},{day:"الأحد",date:"29 مارس",subject:"فيزياء",lesson:1,type:"phys"},{day:"الاثنين",date:"30 مارس",subject:"كيمياء",lesson:2,type:"chem"},{day:"الثلاثاء",date:"31 مارس",subject:"فيزياء",lesson:2,type:"phys"},{day:"الأربعاء",date:"1 أبريل",subject:"كيمياء",lesson:3,type:"chem"},{day:"الخميس",date:"2 أبريل",subject:"فيزياء",lesson:3,type:"phys"},{day:"الجمعة",date:"3 أبريل",subject:"كيمياء عضوية",lesson:1,type:"org"}]},{id:2,title:"الأسبوع الثاني (4 - 10 أبريل)",schedule:[{day:"السبت",date:"4 أبريل",subject:"فيزياء",lesson:4,type:"phys"},{day:"الأحد",date:"5 أبريل",subject:"كيمياء",lesson:4,type:"chem"},{day:"الاثنين",date:"6 أبريل",subject:"فيزياء",lesson:5,type:"phys"},{day:"الثلاثاء",date:"7 أبريل",subject:"كيمياء",lesson:5,type:"chem"},{day:"الأربعاء",date:"8 أبريل",subject:"فيزياء",lesson:6,type:"phys"},{day:"الخميس",date:"9 أبريل",subject:"كيمياء",lesson:6,type:"chem"},{day:"الجمعة",date:"10 أبريل",subject:"كيمياء عضوية",lesson:2,type:"org"}]},{id:3,title:"الأسبوع الثالث (11 - 17 أبريل)",schedule:[{day:"السبت",date:"11 أبريل",subject:"فيزياء",lesson:7,type:"phys"},{day:"الأحد",date:"12 أبريل",subject:"كيمياء",lesson:7,type:"chem"},{day:"الاثنين",date:"13 أبريل",subject:"فيزياء",lesson:8,type:"phys"},{day:"الثلاثاء",date:"14 أبريل",subject:"كيمياء",lesson:8,type:"chem"},{day:"الأربعاء",date:"15 أبريل",subject:"فيزياء",lesson:9,type:"phys"},{day:"الخميس",date:"16 أبريل",subject:"كيمياء",lesson:9,type:"chem"},{day:"الجمعة",date:"17 أبريل",subject:"كيمياء عضوية",lesson:3,type:"org"}]},{id:4,title:"الأسبوع الرابع (18 - 24 أبريل)",schedule:[{day:"السبت",date:"18 أبريل",subject:"فيزياء",lesson:10,type:"phys"},{day:"الأحد",date:"19 أبريل",subject:"كيمياء",lesson:10,type:"chem"},{day:"الاثنين",date:"20 أبريل",subject:"فيزياء",lesson:11,type:"phys"},{day:"الثلاثاء",date:"21 أبريل",subject:"كيمياء",lesson:11,type:"chem"},{day:"الأربعاء",date:"22 أبريل",subject:"فيزياء",lesson:12,type:"phys"},{day:"الخميس",date:"23 أبريل",subject:"كيمياء",lesson:12,type:"chem"},{day:"الجمعة",date:"24 أبريل",subject:"كيمياء عضوية",lesson:4,type:"org"}]},{id:5,title:"الأسبوع الخامس (25 أبريل - 1 مايو)",schedule:[{day:"السبت",date:"25 أبريل",subject:"فيزياء",lesson:13,type:"phys"},{day:"الأحد",date:"26 أبريل",subject:"كيمياء",lesson:13,type:"chem"},{day:"الاثنين",date:"27 أبريل",subject:"فيزياء",lesson:14,type:"phys"},{day:"الثلاثاء",date:"28 أبريل",subject:"كيمياء",lesson:14,type:"chem"},{day:"الأربعاء",date:"29 أبريل",subject:"فيزياء",lesson:15,type:"phys"},{day:"الخميس",date:"30 أبريل",subject:"كيمياء",lesson:15,type:"chem"},{day:"الجمعة",date:"1 مايو",subject:"كيمياء عضوية",lesson:5,type:"org"}]},{id:6,title:"الأسبوع السادس (2 - 8 مايو)",schedule:[{day:"السبت",date:"2 مايو",subject:"فيزياء",lesson:16,type:"phys"},{day:"الأحد",date:"3 مايو",subject:"كيمياء",lesson:16,type:"chem"},{day:"الاثنين",date:"4 مايو",subject:"فيزياء",lesson:17,type:"phys"},{day:"الثلاثاء",date:"5 مايو",subject:"كيمياء",lesson:17,type:"chem"},{day:"الأربعاء",date:"6 مايو",subject:"كيمياء",lesson:18,type:"chem"},{day:"الخميس",date:"7 مايو",subject:"كيمياء",lesson:19,type:"chem"},{day:"الجمعة",date:"8 مايو",subject:"كيمياء عضوية",lesson:6,type:"org"}]},{id:7,title:"الأسبوع السابع (9 - 10 مايو)",schedule:[{day:"السبت",date:"9 مايو",subject:"كيمياء",lesson:20,type:"chem"},{day:"الأحد",date:"10 مايو",subject:"كيمياء",lesson:21,type:"chem"}]}];
+const taskTypes=[{id:'review',label:'حل التفوق',icon:'fa-star'},{id:'mandatory',label:'حل مندليف',icon:'fa-book'},{id:'homework',label:'حل الواجب',icon:'fa-pen'},{id:'lecture',label:'سنوات',icon:'fa-graduation-cap'}];
+const moodEmojis={1:'😢',2:'😟',3:'😐',4:'🙂',5:'😍'};
+let currentWeek=0,completedTasks=JSON.parse(localStorage.getItem('completedTasks')||'{}'),weekMoods=JSON.parse(localStorage.getItem('weekMoods')||'{}'),niyaData=JSON.parse(localStorage.getItem('niyaData')||'{"count":0,"lastRenewal":null,"history":[]}');
+document.addEventListener('DOMContentLoaded',()=>{initMoodTracker();renderWeek();updateProgress();initNiya();});
+function initMoodTracker(){const t=document.getElementById('moodTracker');t.innerHTML='';for(let i=1;i<=7;i++){const b=document.createElement('div');b.className='mood-box';b.dataset.day=i;b.onclick=()=>deleteMoodDay(i);b.innerHTML='<span class="delete-btn">×</span>';t.appendChild(b);}restoreMood();}
+function selectMood(e){document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('active'));e.classList.add('active');const v=e.dataset.mood;const boxes=document.querySelectorAll('.mood-box');let c=0,empty=null;boxes.forEach((b,i)=>{if(b.classList.contains('filled'))c++;else if(!empty)empty=b;});if(empty&&c<7){fillMoodBox(empty,v);showToast(`تم تسجيل يوم ${c+1}`);}else if(c>=7){fillMoodBox(boxes[6],v);showToast('تم تحديث يوم 7');}updateMoodStats();}
+function fillMoodBox(b,v){const e=moodEmojis[v];b.classList.add('filled');b.textContent=e;b.dataset.moodValue=v;b.innerHTML=`${e}<span class="delete-btn" onclick="event.stopPropagation();deleteMoodDay(${b.dataset.day})">×</span>`;if(!weekMoods[currentWeek])weekMoods[currentWeek]=[];weekMoods[currentWeek][parseInt(b.dataset.day)-1]=v;localStorage.setItem('weekMoods',JSON.stringify(weekMoods));}
+function deleteMoodDay(d){const b=document.querySelectorAll('.mood-box')[d-1];if(b.classList.contains('filled')){b.classList.remove('filled');b.textContent='';b.innerHTML='<span class="delete-btn">×</span>';delete b.dataset.moodValue;if(weekMoods[currentWeek]){weekMoods[currentWeek][d-1]=null;weekMoods[currentWeek]=weekMoods[currentWeek].filter(v=>v!==null);localStorage.setItem('weekMoods',JSON.stringify(weekMoods));}showToast(`تم حذف يوم ${d}`);updateMoodStats();}}
+function resetMoodWeek(){if(!confirm('إعادة تعيين الأسبوع؟'))return;document.querySelectorAll('.mood-box').forEach(b=>{b.classList.remove('filled');b.textContent='';b.innerHTML='<span class="delete-btn">×</span>';delete b.dataset.moodValue;});weekMoods[currentWeek]=[];localStorage.setItem('weekMoods',JSON.stringify(weekMoods));document.querySelectorAll('.mood-emoji').forEach(e=>e.classList.remove('active'));updateMoodStats();showToast('تم إعادة التعيين');}
+function restoreMood(){document.querySelectorAll('.mood-box').forEach(b=>{b.classList.remove('filled');b.textContent='';b.innerHTML='<span class="delete-btn">×</span>';});if(weekMoods[currentWeek])weekMoods[currentWeek].forEach((v,i)=>{if(v){const b=document.querySelectorAll('.mood-box')[i];if(b)fillMoodBox(b,v);}});updateMoodStats();}
+function updateMoodStats(){let s=0,c=0;document.querySelectorAll('.mood-box').forEach(b=>{if(b.dataset.moodValue){s+=parseInt(b.dataset.moodValue);c++;}});document.getElementById('moodAvg').textContent=c>0?(s/c).toFixed(1):'-';document.getElementById('moodCount').textContent=c;document.getElementById('moodWeekNum').textContent=currentWeek+1;}
+function initNiya(){updateNiyaDisplay();if(niyaData.lastRenewal){const last=new Date(niyaData.lastRenewal);const now=new Date();const diff=(now-last)/(1000*60*60);if(diff>=24)document.getElementById('niyaCard').classList.add('pulse-active');}else document.getElementById('niyaCard').classList.add('pulse-active');setInterval(updateNiyaTimer,60000);}
+function renewNiya(){const now=new Date();const t=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});const d=now.toLocaleDateString('ar-EG');niyaData.count++;niyaData.lastRenewal=now.toISOString();niyaData.history.unshift({date:d,time:t,timestamp:now.getTime()});if(niyaData.history.length>10)niyaData.history=niyaData.history.slice(0,10);localStorage.setItem('niyaData',JSON.stringify(niyaData));updateNiyaDisplay();document.getElementById('niyaCard').classList.remove('pulse-active');document.getElementById('niyaBtn').classList.add('renewed');document.getElementById('niyaBtn').innerHTML='<i class="fas fa-check"></i>تم التجديد ✓';showToast('تم تجديد النية! بارك الله فيك');createConfetti(document.getElementById('niyaBtn'));setTimeout(()=>{document.getElementById('niyaBtn').classList.remove('renewed');document.getElementById('niyaBtn').innerHTML='<i class="fas fa-heart"></i>جدد نيتك الآن';},3000);}
+function updateNiyaDisplay(){document.getElementById('renewalCount').textContent=niyaData.count;updateNiyaTimer();if(niyaData.history.length>0){const h=document.getElementById('niyaHistory');h.style.display='block';h.innerHTML=niyaData.history.slice(0,3).map(i=>`<div class="niya-item"><span>${i.date}</span><span>${i.time}</span></div>`).join('');}}
+function updateNiyaTimer(){const t=document.getElementById('timerDisplay');if(!niyaData.lastRenewal){t.textContent='لم يتم التجديد';return;}const last=new Date(niyaData.lastRenewal);const now=new Date();const diffH=Math.floor((now-last)/(1000*60*60));const diffM=Math.floor(((now-last)%(1000*60*60))/(1000*60));if(diffH<24){t.textContent=`منذ ${diffH}س ${diffM}د`;t.style.color='#81C784';}else{t.textContent=`⚠️ مر ${diffH}ساعة`;t.style.color='#FFD54F';document.getElementById('niyaCard').classList.add('pulse-active');}}
+function changeWeek(d){currentWeek+=d;if(currentWeek<0)currentWeek=weeksData.length-1;if(currentWeek>=weeksData.length)currentWeek=0;document.getElementById('weekTitle').style.opacity='0';setTimeout(()=>{renderWeek();document.getElementById('weekTitle').style.opacity='1';},200);}
+function renderWeek(){const w=weeksData[currentWeek];document.getElementById('weekTitle').textContent=w.title;document.getElementById('scheduleBody').innerHTML=w.schedule.map((item,i)=>{const sc=item.type==='chem'?'subject-chem':item.type==='phys'?'subject-phys':'subject-org';return`<tr class="animate-in" style="animation-delay:${i*0.1}s"><td class="day-name">${item.day}</td><td>${item.date}</td><td class="${sc}">${item.subject}</td><td>${item.lesson}</td></tr>`;}).join('');document.getElementById('tasksContainer').innerHTML=`<div class="tasks-header">تفاصيل المهام</div>${w.schedule.map((day,di)=>{const dk=`week${currentWeek}_day${di}`;const ex=di===0?'expanded':'';const rot=di===0?'rotated':'';const tc=day.type==='chem'?'tag-chem':day.type==='phys'?'tag-phys':'tag-org';return`<div class="day-task animate-in" style="animation-delay:${di*0.1}s"><div class="day-header" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:1rem;"><span class="day-label"><i class="fas fa-calendar-day"></i>${day.day}</span><span class="day-date">${day.date}</span></div><i class="fas fa-chevron-down toggle-icon ${rot}"></i></div><div class="task-grid ${ex}">${taskTypes.map(task=>{const tk=`${dk}_${day.type}_${task.id}`;const ic=completedTasks[tk];return`<div class="task-item ${ic?'completed':''}" onclick="toggleTask('${tk}',this)"><div class="checkbox">${ic?'<i class="fas fa-check"></i>':''}</div><div class="task-icon"><i class="fas ${task.icon}"></i></div><div class="task-label">${task.label}</div><div class="subject-tag ${tc}">${day.subject}</div></div>`;}).join('')}</div></div>`;}).join('')}`;restoreMood();restoreProud();}
+function toggleDay(h){const g=h.nextElementSibling;const i=h.querySelector('.toggle-icon');g.classList.toggle('expanded');i.classList.toggle('rotated');}
+function toggleTask(tk,el){el.classList.toggle('completed');const cb=el.querySelector('.checkbox');if(el.classList.contains('completed')){completedTasks[tk]=true;cb.innerHTML='<i class="fas fa-check"></i>';createConfetti(el);}else{delete completedTasks[tk];cb.innerHTML='';}localStorage.setItem('completedTasks',JSON.stringify(completedTasks));updateProgress();}
+function updateProgress(){const tt=document.querySelectorAll('.task-item').length;const c=document.querySelectorAll('.task-item.completed').length;const p=tt>0?Math.round((c/tt)*100):0;document.getElementById('progressPercent').textContent=p+'%';document.getElementById('progressFill').style.width=p+'%';document.getElementById('progressFill').textContent=p>10?p+'%':'';}
+function restoreProud(){const s=localStorage.getItem('proudText_'+currentWeek);document.getElementById('proudInput').value=s||'';}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function createConfetti(el){const r=el.getBoundingClientRect();for(let i=0;i<10;i++){const c=document.createElement('div');c.className='confetti';c.style.left=r.left+r.width/2+'px';c.style.top=r.top+'px';c.style.background=['#FFD700','#FF6B6B','#4ECDC4','#45B7D1','#9C27B0'][Math.floor(Math.random()*5)];c.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(c);setTimeout(()=>c.remove(),3000);}}
+document.getElementById('proudInput').addEventListener('input',e=>{localStorage.setItem('proudText_'+currentWeek,e.target.value);});
+</script>
 </body>
-  </html>
+</html>
